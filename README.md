@@ -12,8 +12,9 @@
         插件可以扩展webpack的功能，让webpack具有更强大的功能
     - 模式(mode)
         模式用来指定当前的构建环境是：开发环境，生产环境还是测试环境
+    [代码示例](https://github.com/YQingFeng/react-webpack/blob/main/config/webpack.dev.js#L2-L8)
 
-1. 配置**入口(entry)** 和 **输出(output)**
+## 二. 配置**入口(entry)** 和 **输出(output)**
 
 ```javascript
 entry:'../src/main.js',
@@ -23,4 +24,35 @@ output:{
     chunkFileName:'static/js/[name].chunk.js', // 开发中多余的chunk输出，比如通过import动态导入的chunk
     assetModuleFilename: 'static/media/[hash:10][ext][query]' // 输出静态资源目录
 },
+```
+
+[代码示例](https://github.com/YQingFeng/react-webpack/blob/main/config/webpack.dev.js#L2-L8)
+
+## 配置 loader 处理资源(js,样式文件，静态资源文件)
+
+1. 处理 css 资源
+
+```
+{
+    test: '/\.css$/', //test检测文件类型
+    use: [
+        'style-loader', // 将编译好的css样式通过创建style标签的方式添加到html文件中
+        'css-loader', // 将css资源编译成commonJS模块的js中
+        {
+            loader:'postcss-loader', // 解决样式兼容问题，需要兼容的程度看package.json中browserslist的配置
+            options:{
+                postcssOptions:{
+                    plugin:['postcss-preset-env'] // 通过该插件能解决大多数样式兼容问题
+                }
+            }
+        }
+    ]
+}
+
+// 在package.json文件中配置postcss-loader处理样式兼容的程度
+"browserslist": [
+    "last 2 version", // 兼容最近的2个版本
+    "> 1%", // 覆盖99%的浏览器
+    "not dead" // 排除弃用的版本
+  ]
 ```

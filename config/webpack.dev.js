@@ -10,7 +10,7 @@ module.exports = {
         rules: [
             // 处理css文件
             {
-                test: '/\.css$/', //test检测文件类型
+                test: /\.css$/, //test检测文件类型
                 use: [
                     'style-loader', // 将编译好的css样式通过创建style标签的方式添加到html文件中
                     'css-loader', // 将css资源编译成commonJS模块的js中
@@ -22,6 +22,57 @@ module.exports = {
                             }
                         }
                     }
+                ]
+            },
+            // 处理less文件
+            {
+                test: /\.less$/, //test检测文件类型
+                use: [
+                    'style-loader', // 将编译好的css样式通过创建style标签的方式添加到html文件中
+                    'css-loader', // 将css资源编译成commonJS模块的js中
+                    {
+                        loader:'postcss-loader', // 解决样式兼容问题，需要兼容的程度看package.json中browserslist的配置
+                        options:{
+                            postcssOptions:{
+                                plugin:['postcss-preset-env'] // 通过该插件能解决大多数样式兼容问题
+                            }
+                        }
+                    },
+                    'less-loader' // 将less文件编译成css文件
+                ]
+            },
+            // 处理sass文件
+            {
+                test: /\.s[ac]ss$/, //test检测文件类型
+                use: [
+                    'style-loader', // 将编译好的css样式通过创建style标签的方式添加到html文件中
+                    'css-loader', // 将css资源编译成commonJS模块的js中
+                    {
+                        loader:'postcss-loader', // 解决样式兼容问题，需要兼容的程度看package.json中browserslist的配置
+                        options:{
+                            postcssOptions:{
+                                plugin:['postcss-preset-env'] // 通过该插件能解决大多数样式兼容问题
+                            }
+                        }
+                    },
+                    'sass-loader' // 将sass文件编译成css文件
+                ]
+            },
+            // 处理stylus文件
+            {
+                test: /\.styl$/, //test检测文件类型
+                use: [
+                    'style-loader', // 将编译好的css样式通过创建style标签的方式添加到html文件中
+                    'css-loader', // 将css资源编译成commonJS模块的js中
+                    {
+                        loader:'postcss-loader', // 解决样式兼容问题，需要兼容的程度看package.json中browserslist的配置
+                        options:{
+                            postcssOptions:{
+                                plugin:['postcss-preset-env'] // 通过该插件能解决大多数样式兼容问题
+                            }
+                        }
+                    },
+                    'stylus-loader' // 将stylus文件编译成css文件
                 ]
             }
         ]

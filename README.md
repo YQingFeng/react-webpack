@@ -279,3 +279,15 @@ new HtmlWebpackPlugin({
 // 4. 在plugin激活ReactRefreshWebpackPlugin插件
 new ReactRefreshWebpackPlugin()
 ```
+
+## 配置生产环境 webpack 配置
+
+```javascript
+// 基础修改
+
+// 1. 每次打包清除上一次打包的内容
+output.clean = true;
+// 2. 给输出文件添加hash名
+// 3. 关闭devServer
+// 4. 修改mode为production
+```

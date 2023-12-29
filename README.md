@@ -176,7 +176,9 @@ const getStyleLoaders = (pre) => {
 },
 ```
 
-### 6. 处理 js 文件 - 使用 eslint 对代码进行检查
+### 6. 处理 js 文件
+
+6.1 使用 eslint 对代码进行检查
 
 ```javascript
 [
@@ -199,9 +201,24 @@ const getStyleLoaders = (pre) => {
       babelOptions: {
         preset: [
           // 解决页面报错的问题
-          ["babel-preset-react-app", false]["babel-preset-react-app/prod"],
+          ["babel-preset-react-app", false]，
+          ["babel-preset-react-app/prod"],
         ],
       },
     },
   });
+```
+
+6.1 使用 babel-loader 对代码编译
+
+```javascript
+{
+    test: /\.jsx?$/,
+    include: path.resolve(__dirname, '..src'),
+    loader: 'babel-loader',
+    options: {
+        cacheDirectory: true,   // 开启babel缓存
+        cacheCompression: false,  // 关闭缓存文件压缩
+    }
+}
 ```

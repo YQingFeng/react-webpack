@@ -83,7 +83,13 @@ module.exports = {
                 // 1. 配置Eslint对代码进行检查
                 // 2. 使用babel对代码进行转换
             {
-
+                test: /\.jsx?$/,
+                include: path.resolve(__dirname, '..src'),
+                loader: 'babel-loader',
+                options: {
+                    cacheDirectory: true,   // 开启babel缓存
+                    cacheCompression: false,  // 关闭缓存文件压缩
+                }
             }
         ]
     },

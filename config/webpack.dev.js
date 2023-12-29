@@ -18,11 +18,11 @@ const getStyleLoaders = (pre) => {
     ].filter(Boolean)
 }
 module.exports = {
-    entry: '../src/main.js', // 指定webpack从哪里开始打包
+    entry: './src/main.js', // 指定webpack从哪里开始打包
     output: { // 指定webpack打包后的文件在哪里
         path: undefined,  // 开发模式会开启开发服务器,不需要打包到指定路径
-        fileName: 'static/js/[name].js', // 输出的文件名
-        chunkFileName: 'static/js/[name].chunk.js', // 开发中多余的chunk输出，比如通过import动态导入的chunk
+        filename: 'static/js/[name].js', // 输出的文件名
+        chunkFilename: 'static/js/[name].chunk.js', // 开发中多余的chunk输出，比如通过import动态导入的chunk
         assetModuleFilename: 'static/media/[hash:10][ext][query]' // 输出静态资源目录
     },
     module: { // webpack只能处理js，json文件，其他资源需要借助loader才能解析
@@ -85,8 +85,8 @@ module.exports = {
                 // 1. 配置Eslint对代码进行检查
                 // 2. 使用babel对代码进行转换
             {
-                test: /\.jsx?$/,
-                include: path.resolve(__dirname, '..src'),
+                test: /\.(js|jsx)$/,
+                include: path.resolve(__dirname, '../src'),
                 loader: 'babel-loader',
                 options: {
                     cacheDirectory: true,   // 开启babel缓存
@@ -97,7 +97,8 @@ module.exports = {
     },
     plugins: [ // 插件可以扩展webpack的功能，让webpack具有更强大的功能
         new EslintWebpackPlugin({
-            context: path.resolve(__dirname,'../src'), // 检测哪些文件
+            context: path.resolve(__dirname, '../src'), // 检测哪些文件
+            // include: path.resolve(__dirname, '../src'), // 检测哪些文件
             exclude: 'node_module', // 不检查node_module包文件
             cache: true, // 开启缓存
             cacheLocation: path.resolve(__dirname, '../node_modules/.cache/ceslintcache') // 缓存文件的存放位置
@@ -117,6 +118,11 @@ module.exports = {
         runtimeChunk: {
             name: entrypoint => `runtime~${entrypoint.name}.js`
         }
+    },
+    // webpack解析模块加载选项
+    resolve: {
+        // 自动补全文件扩展名
+        extensions: ['.jsx', '.js', '.json']
     },
     devServer: {
         host: 'localhost',

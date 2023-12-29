@@ -1,6 +1,7 @@
 const path = require('path')
 const EslintWebpackPlugin = require('eslint-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const getStyleLoaders = (pre) => {
     return [
@@ -91,6 +92,7 @@ module.exports = {
                 options: {
                     cacheDirectory: true,   // 开启babel缓存
                     cacheCompression: false,  // 关闭缓存文件压缩
+                    plugins: [require.resolve('react-refresh/babel')],
                 }
             },
         ]
@@ -106,7 +108,9 @@ module.exports = {
         // 处理html文件，将html模版文件copy到dist目录
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../public/index.html')
-        })
+        }),
+        // 激活ReactRefreshWebpackPlugin插件，js开启HMR
+        new ReactRefreshWebpackPlugin()
 
     ],
     mode: 'development', // 模式用来指定当前的构建环境是：开发环境，生产环境还是测试环境

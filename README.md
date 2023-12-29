@@ -255,3 +255,27 @@ new HtmlWebpackPlugin({
 // 开发模式推荐cheap-module-source-map，优点：打包编译速度快，只包含行映射，缺点：没有列映射
 // 生产模式推荐source-map，优点：映射准确，提供源代码文件和行数，打包编译速度更慢
 ```
+
+### 2. 提升打包构建速度 - 激活 js 的 HotModuleReplacement(HMR)热模块替换
+
+```javascript
+// style-loader中已经配置HMR
+// 如何开启js HMR
+// 1. npm install -D @pmmmwh/react-refresh-webpack-plugin react-refresh
+// 2. 设置devServer.hot为true
+// 3. 使用插件
+{
+    test: /\.[jt]sx?$/,
+    exclude: /node_modules/,
+    use: [
+      {
+        loader: require.resolve('babel-loader'),
+        options: {
+          plugins: [isDevelopment && require.resolve('react-refresh/babel')].filter(Boolean),
+        },
+      },
+    ],
+},
+// 4. 在plugin激活ReactRefreshWebpackPlugin插件
+new ReactRefreshWebpackPlugin()
+```

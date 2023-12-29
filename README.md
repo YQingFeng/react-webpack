@@ -29,7 +29,7 @@ output:{
 
 [代码示例](https://github.com/YQingFeng/react-webpack/blob/main/config/webpack.dev.js#L2-L8)
 
-## 配置 loader 处理资源(js,样式文件，静态资源文件)
+## 配置 loader 和 plugin 处理资源(js,样式文件，静态资源文件)
 
 ### 1. 处理 css 资源
 
@@ -231,4 +231,14 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 new HtmlWebpackPlugin({
   template: path.resolve(__dirname, "../public/index.html"),
 });
+```
+
+## 项目优化
+
+### 1. 提升开发体验 - 当代码报错时追踪到源码位置
+
+```javascript
+// 在webpack.config.js中配置devtool: 'cheap-module-source-map'
+// 开发模式推荐cheap-module-source-map，优点：打包编译速度快，只包含行映射，缺点：没有列映射
+// 生产模式推荐source-map，优点：映射准确，提供源代码文件和行数，打包编译速度更慢
 ```

@@ -42,7 +42,29 @@ module.exports = {
             {
                 test: /\.styl$/, //test检测文件类型
                 use: getStyleLoaders('stylus-loader')
-            }
+            },
+
+            // 处理图片资源
+            // file-loader 将文件发送到输出目录,并且其路径将被注入到 bundle 中
+            // url-loader 当文件小于设定的limit时可以返回一个Data Url内联到 bundle 中
+            // 这两个loader已经内置到webpack,我们只需要激活就行
+            {
+                test: /\.(jpe?g|png|gif|webp|svg)$/, //test检测文件类型
+                type: 'asset',
+                parser: {
+                    // 将资源大小小于该数值的图片转base64，内联到bundle中
+                    // 优点：减少请求数量
+                    // 缺点：体积会更大
+                    dataUrlCondition: {
+                        maxSize: 10 * 1024
+                    },
+                    generator: {
+                        // 输出图片名称
+                        // hash:10 图片名称hash取前10位
+                        filename: 'static/images/[hash:10][ext][query]'
+                    }
+                }
+            },
         ]
     },
     plugin: [ // 插件可以扩展webpack的功能，让webpack具有更强大的功能

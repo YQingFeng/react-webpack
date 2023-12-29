@@ -65,6 +65,17 @@ module.exports = {
                     }
                 }
             },
+            // 处理字体图标文件
+            // 处理其他资源，将资源直接输出到对应的文件
+            {
+                test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
+                type: 'asset/resource',  // asset可转base64,asset/resource直接输出文件到指定目录
+                generator: {
+                    // 输出图片名称
+                    // hash:10 图片名称hash取前10位
+                    filename: 'static/media/[hash:10][ext][query]'
+                }
+            },
         ]
     },
     plugin: [ // 插件可以扩展webpack的功能，让webpack具有更强大的功能

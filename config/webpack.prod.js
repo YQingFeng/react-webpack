@@ -1,9 +1,10 @@
 const path = require('path')
 const EslintWebpackPlugin = require('eslint-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+// const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'); 生产模式去掉HMR功能
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserWebpackPlugin = require('terser-webpack-plugin')
 
 const getStyleLoaders = (pre) => {
     return [
@@ -95,7 +96,7 @@ module.exports = {
                 options: {
                     cacheDirectory: true,   // 开启babel缓存
                     cacheCompression: false,  // 关闭缓存文件压缩
-                    plugins: [require.resolve('react-refresh/babel')],
+                    // plugins: [require.resolve('react-refresh/babel')], 生产模式去掉HMR功能
                 }
             },
         ]
@@ -113,7 +114,7 @@ module.exports = {
             template: path.resolve(__dirname, '../public/index.html')
         }),
         // 激活ReactRefreshWebpackPlugin插件，js开启HMR
-        new ReactRefreshWebpackPlugin(),
+        // new ReactRefreshWebpackPlugin(), 生产模式去掉HMR功能
         // 提取css文件，并输出到对应目录
         new MiniCssExtractPlugin({
             filename: 'static/css/[name].[contenthash:10].css',
@@ -132,7 +133,9 @@ module.exports = {
         },
         minimizer: [
             // CssMinimizerPlugin压缩生成的css文件
-            new CssMinimizerPlugin()
+            new CssMinimizerPlugin(),
+            // 压缩js代码
+            new TerserWebpackPlugin()
         ]
     },
     // webpack解析模块加载选项

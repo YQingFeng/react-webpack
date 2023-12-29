@@ -2,10 +2,12 @@ const path = require('path')
 const EslintWebpackPlugin = require('eslint-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 const getStyleLoaders = (pre) => {
     return [
-        'style-loader', // 将编译好的css样式通过创建style标签的方式添加到html文件中
+        MiniCssExtractPlugin.loader, // 将编译好的css样式通过创建style标签的方式添加到html文件中
         'css-loader', // 将css资源编译成commonJS模块的js中
         {
             loader:'postcss-loader', // 解决样式兼容问题，需要兼容的程度看package.json中browserslist的配置
@@ -111,7 +113,12 @@ module.exports = {
             template: path.resolve(__dirname, '../public/index.html')
         }),
         // 激活ReactRefreshWebpackPlugin插件，js开启HMR
-        new ReactRefreshWebpackPlugin()
+        new ReactRefreshWebpackPlugin(),
+        // 提取css文件，并输出到对应目录
+        new MiniCssExtractPlugin({
+            filename: 'static/css/[name].[contenthash:10].css',
+            chunkFilename: 'static/css/[name].[contenthash:10]..chunk.css',
+        })
 
     ],
     mode: 'production', // 模式用来指定当前的构建环境是：开发环境，生产环境还是测试环境
@@ -122,7 +129,11 @@ module.exports = {
         },
         runtimeChunk: {
             name: entrypoint => `runtime~${entrypoint.name}.js`
-        }
+        },
+        minimizer: [
+            // CssMinimizerPlugin压缩生成的css文件
+            new CssMinimizerPlugin()
+        ]
     },
     // webpack解析模块加载选项
     resolve: {

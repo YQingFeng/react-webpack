@@ -29,7 +29,7 @@ output:{
 
 [代码示例](https://github.com/YQingFeng/react-webpack/blob/main/config/webpack.dev.js#L2-L8)
 
-## 配置 loader 和 plugin 处理资源(js,样式文件，静态资源文件)
+## 三. 配置 loader 和 plugin 处理资源(js,样式文件，静态资源文件)
 
 ### 1. 处理 css 资源
 
@@ -246,7 +246,7 @@ new HtmlWebpackPlugin({
 }
 ```
 
-## 项目优化
+## 四. 项目优化(开发模式)
 
 ### 1. 提升开发体验 - 当代码报错时追踪到源码位置
 
@@ -280,14 +280,32 @@ new HtmlWebpackPlugin({
 new ReactRefreshWebpackPlugin()
 ```
 
-## 配置生产环境 webpack 配置
+## 五. 配置生产环境 webpack 配置
+
+### 1. 修改基础配置
 
 ```javascript
-// 基础修改
-
 // 1. 每次打包清除上一次打包的内容
 output.clean = true;
 // 2. 给输出文件添加hash名
 // 3. 关闭devServer
 // 4. 修改mode为production
+```
+
+## 六. 项目优化(生产模式)
+
+### 1. 提取 css 文件到单独文件并压缩 css 文件
+
+```javascript
+// 使用mini-css-extract-plugin插件将css提取成单独的文件，通过link标签加载性能才好
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// 用MiniCssExtractPlugin.loader替换style-loader
+// 提取css文件，并输出到对应目录
+new MiniCssExtractPlugin({
+  filename: "static/css/[name].[contenthash:10].css",
+  chunkFilename: "static/css/[name].[contenthash:10]..chunk.css",
+});
+
+// 使用CssMinimizerPlugin压缩生成的css文件
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 ```

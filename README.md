@@ -175,3 +175,33 @@ const getStyleLoaders = (pre) => {
     }
 },
 ```
+
+### 6. 处理 js 文件 - 使用 eslint 对代码进行检查
+
+```javascript
+[
+  // 插件可以扩展webpack的功能，让webpack具有更强大的功能
+  new EslintWebpackPlugin({
+    context: path.resolve(__dirname, "../src"), // 检测哪些文件
+    exclude: "node_module", // 不检查node_module包文件
+    cache: true, // 开启缓存
+    cacheLocation: path.resolve(
+      __dirname,
+      "../node_modules/.cache/ceslintcache"
+    ), // 缓存文件的存放位置
+  }),
+],
+  // 根目录下生成.eslintrc文件，配置检查规则
+  (module.exports = {
+    // 因为搭建的是react项目，这里继承react官方的价差规则
+    extends: ["react-app"],
+    parserOptions: {
+      babelOptions: {
+        preset: [
+          // 解决页面报错的问题
+          ["babel-preset-react-app", false]["babel-preset-react-app/prod"],
+        ],
+      },
+    },
+  });
+```

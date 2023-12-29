@@ -292,6 +292,24 @@ output.clean = true;
 // 4. 修改mode为production
 ```
 
+### 2. 将静态文件 public 复制到打包文件
+
+```javascript
+// copy-webpack-plugin 插件
+npm install copy-webpack-plugin --save-dev
+new CopyPlugin({
+    patterns: [
+        {
+            from: path.resolve(__dirname, '../public'),
+            to: path.resolve(__dirname, '../dist'),
+            globOptions: {
+                ignore: ['**/index.html'] // 忽略html文件，已经被HtmlWebpackPlugin插件复制到dist目录下
+            }
+        },
+    ],
+}),
+```
+
 ## 六. 项目优化(生产模式)
 
 ### 1. 提取 css 文件到单独文件并压缩 css 文件

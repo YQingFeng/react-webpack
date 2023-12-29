@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserWebpackPlugin = require('terser-webpack-plugin')
+const CopyPlugin = require("copy-webpack-plugin");
 
 const getStyleLoaders = (pre) => {
     return [
@@ -24,7 +25,7 @@ const getStyleLoaders = (pre) => {
 module.exports = {
     entry: './src/main.js', // 指定webpack从哪里开始打包
     output: { // 指定webpack打包后的文件在哪里
-        path: path.resolve(__dirname, ".../dist"),  // 开发模式会开启开发服务器,不需要打包到指定路径
+        path: path.resolve(__dirname, "../dist"),  // 开发模式会开启开发服务器,不需要打包到指定路径
         filename: 'static/js/[name].[contenthash:10].js', // 输出的文件名
         chunkFilename: 'static/js/[name].[contenthash:10].chunk.js', // 开发中多余的chunk输出，比如通过import动态导入的chunk
         assetModuleFilename: 'static/media/[hash:10][ext][query]', // 输出静态资源目录
@@ -119,7 +120,19 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: 'static/css/[name].[contenthash:10].css',
             chunkFilename: 'static/css/[name].[contenthash:10]..chunk.css',
-        })
+        }),
+        // 将public文件复制到指定的打包路径下
+        new CopyPlugin({
+            patterns: [
+                { 
+                    from: path.resolve(__dirname, '../public'), 
+                    to: path.resolve(__dirname, '../dist'),
+                    globOptions: {
+                        ignore: ['**/index.html']
+                    }
+                },
+            ],
+        }),
 
     ],
     mode: 'production', // 模式用来指定当前的构建环境是：开发环境，生产环境还是测试环境

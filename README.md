@@ -233,6 +233,19 @@ new HtmlWebpackPlugin({
 });
 ```
 
+### 8. 开发模式开启开发服务器
+
+```javascript
+{
+    devServer: {
+        host: 'localhost',
+        port: 3000,
+        open: true,
+        hot: true,
+    }
+}
+```
+
 ## 项目优化
 
 ### 1. 提升开发体验 - 当代码报错时追踪到源码位置

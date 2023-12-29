@@ -109,5 +109,19 @@ module.exports = {
 
     ],
     mode: 'development', // 模式用来指定当前的构建环境是：开发环境，生产环境还是测试环境
-    devtool: 'cheap-module-source-map' // 开发过程中当代码报错时追踪到打包编译后的文件，而不是源代码，添加devtool可追踪到报错在源码的位置
+    devtool: 'cheap-module-source-map', // 开发过程中当代码报错时追踪到打包编译后的文件，而不是源代码，添加devtool可追踪到报错在源码的位置
+    optimization: {
+        splitChunks: {
+            chunks: 'all'
+        },
+        runtimeChunk: {
+            name: entrypoint => `runtime~${entrypoint.name}.js`
+        }
+    },
+    devServer: {
+        host: 'localhost',
+        port: 3000,
+        open: true,
+        hot: true,
+    }
 }

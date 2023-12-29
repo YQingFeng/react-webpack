@@ -12,7 +12,8 @@
         插件可以扩展webpack的功能，让webpack具有更强大的功能
     - 模式(mode)
         模式用来指定当前的构建环境是：开发环境，生产环境还是测试环境
-    [代码示例](https://github.com/YQingFeng/react-webpack/blob/main/config/webpack.dev.js#L2-L8)
+
+[代码示例](https://github.com/YQingFeng/react-webpack/blob/main/config/webpack.dev.js#L2-L8)
 
 ## 二. 配置**入口(entry)** 和 **输出(output)**
 
@@ -111,4 +112,24 @@ output:{
         'stylus-loader' // 将stylus文件编译成css文件
     ]
 }
+```
+
+### 3.抽离样式 loader，封装到自定义 loader 中
+
+```javascript
+const getStyleLoaders = (pre) => {
+  return [
+    "style-loader", // 将编译好的css样式通过创建style标签的方式添加到html文件中
+    "css-loader", // 将css资源编译成commonJS模块的js中
+    {
+      loader: "postcss-loader", // 解决样式兼容问题，需要兼容的程度看package.json中browserslist的配置
+      options: {
+        postcssOptions: {
+          plugin: ["postcss-preset-env"], // 通过该插件能解决大多数样式兼容问题
+        },
+      },
+    },
+    pre,
+  ].filter(Boolean);
+};
 ```

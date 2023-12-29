@@ -1,5 +1,7 @@
 const path = require('path')
 const EslintWebpackPlugin = require('eslint-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 const getStyleLoaders = (pre) => {
     return [
         'style-loader', // 将编译好的css样式通过创建style标签的方式添加到html文件中
@@ -90,7 +92,7 @@ module.exports = {
                     cacheDirectory: true,   // 开启babel缓存
                     cacheCompression: false,  // 关闭缓存文件压缩
                 }
-            }
+            },
         ]
     },
     plugins: [ // 插件可以扩展webpack的功能，让webpack具有更强大的功能
@@ -99,7 +101,12 @@ module.exports = {
             exclude: 'node_module', // 不检查node_module包文件
             cache: true, // 开启缓存
             cacheLocation: path.resolve(__dirname, '../node_modules/.cache/ceslintcache') // 缓存文件的存放位置
+        }),
+        // 处理html文件，将html模版文件copy到dist目录
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, '../public/index.html')
         })
+
     ],
     mode: 'development' // 模式用来指定当前的构建环境是：开发环境，生产环境还是测试环境
 }

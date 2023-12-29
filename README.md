@@ -222,3 +222,13 @@ const getStyleLoaders = (pre) => {
     }
 }
 ```
+
+### 7. 处理 html 文件
+
+```javascript
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+// 使用HtmlWebpackPlugin插件处理html文件，将html模版文件copy到dist目录
+new HtmlWebpackPlugin({
+  template: path.resolve(__dirname, "../public/index.html"),
+});
+```
